@@ -1,0 +1,22 @@
+{
+	"Interaction":{
+		"body": "${1:sender} -> ${2:receiver} : ${3:msg};\n$0",
+		"description": "Inserts a message interaction.",
+		"prefix": ["int", "send", "->"]
+	},
+	"Choice": {
+		"body": [
+			"sel $1 {",
+			"\t$0",
+			"}"
+		],
+		"description": "Inserts a choice for the given participant.",
+		"prefix": ["selection", "choice"],
+	},
+	"Parallel": {
+		"body": [
+			"${1:subchor1} | ${0:subchor2}"
+		],
+		"prefix": ["parallel", "par"]
+	}
+}

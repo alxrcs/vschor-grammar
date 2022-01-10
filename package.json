@@ -1,0 +1,31 @@
+{
+    "name": "vschor-grammar",
+    "displayName": "vschor-grammar",
+    "description": "Syntax highlight for g-choreographies",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.63.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "gc",
+            "aliases": ["G-choreography", "gc"],
+            "extensions": [".gc"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "gc",
+            "scopeName": "source.gchor",
+            "path": "./syntaxes/gc.tmLanguage.json"
+        }],
+        "snippets": [
+            {
+                "language": "gc",
+                "path": "./snippets/.code-snippets"
+            }
+        ]
+    }
+}
