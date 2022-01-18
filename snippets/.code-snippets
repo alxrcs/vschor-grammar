@@ -11,7 +11,7 @@
 			"}"
 		],
 		"description": "Inserts a choice for the given participant.",
-		"prefix": ["selection", "choice"],
+		"prefix": ["select", "choice"],
 	},
 	"Parallel": {
 		"body": [
