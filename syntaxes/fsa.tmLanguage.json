@@ -1,0 +1,54 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "FSA format",
+	"patterns": [
+		{
+			"include": "#interactions"
+		},
+		{
+			"include": "#keywords"
+		}
+		
+	],
+	"repository": {
+		"interactions": {
+			"patterns": [
+				{
+					"match": "(\\w+)\\s+(\\d+)\\s+(\\!|\\?)\\s+(\\w+)\\s+(\\w+)",
+					"captures": {
+						"2": {
+							"name":"constant.numeric"
+						},
+						"3": {
+							"name": "keyword.operator.new"
+						},
+						"4": {
+							"name": "entity.name.function"
+						}
+					}
+				},
+				{
+					"match": "(\\w+)\\s+(tau)\\s+(\\w+)",
+					"captures": {
+						"2":{
+							"name": "keyword.operator.new"
+						}
+					}
+				}
+			]
+		},
+		"keywords": {
+			"match": "\\.(outputs|state|marking|end)\\s*(\\w+)?",
+			"name": "keyword",
+			"captures": {
+				"1": {
+					"name": "keyword.control"
+				},
+				"2": {
+					"name": "entity.name.class"
+				}
+			}
+		}
+	},
+	"scopeName": "source.fsa"
+}

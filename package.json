@@ -15,11 +15,21 @@
             "aliases": ["G-choreography", "gc"],
             "extensions": [".gc"],
             "configuration": "./language-configuration.json"
+        }, {
+            "id": "fsa",
+            "aliases": ["FSA format", "fsa"],
+            "extensions": [
+                ".fsa"
+            ]
         }],
         "grammars": [{
             "language": "gc",
             "scopeName": "source.gchor",
             "path": "./syntaxes/gc.tmLanguage.json"
+        }, {
+            "language": "fsa",
+            "scopeName": "source.fsa",
+            "path": "./syntaxes/fsa.tmLanguage.json"
         }],
         "snippets": [
             {
