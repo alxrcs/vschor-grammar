@@ -4,6 +4,7 @@
     "description": "Syntax highlight for g-choreographies",
     "repository": {"url": "https://github.com/alxrcs/vschor-grammar.git"},
     "version": "0.0.1",
+    "publisher": "alxrcs",
     "engines": {
         "vscode": "^1.63.0"
     },
