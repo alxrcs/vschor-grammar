@@ -2,7 +2,9 @@
     "name": "vschor-grammar",
     "displayName": "vschor-grammar",
     "description": "Syntax highlight for g-choreographies",
-    "repository": {"url": "https://github.com/alxrcs/vschor-grammar.git"},
+    "repository": {
+        "url": "https://github.com/alxrcs/vschor-grammar.git"
+    },
     "version": "0.0.1",
     "publisher": "alxrcs",
     "engines": {
@@ -11,33 +13,79 @@
     "categories": [
         "Programming Languages"
     ],
+    "main": "./out/extension.js",
+    "activationEvents": [
+        "*",
+        "onLanguage:gc",
+        "onLanguage:fsa"
+    ],
     "contributes": {
-        "languages": [{
-            "id": "gc",
-            "aliases": ["G-choreography", "gc"],
-            "extensions": [".gc"],
-            "configuration": "./language-configuration.json"
-        }, {
-            "id": "fsa",
-            "aliases": ["FSA format", "fsa"],
-            "extensions": [
-                ".fsa"
-            ]
-        }],
-        "grammars": [{
-            "language": "gc",
-            "scopeName": "source.gchor",
-            "path": "./syntaxes/gc.tmLanguage.json"
-        }, {
-            "language": "fsa",
-            "scopeName": "source.fsa",
-            "path": "./syntaxes/fsa.tmLanguage.json"
-        }],
+        "commands": [
+            {
+                "command": "vschor-grammar.previewfsa",
+                "title": "Preview FSA"
+            }
+        ],
+        "languages": [
+            {
+                "id": "gc",
+                "aliases": [
+                    "G-choreography",
+                    "gc"
+                ],
+                "extensions": [
+                    ".gc"
+                ],
+                "configuration": "./language-configuration.json"
+            },
+            {
+                "id": "fsa",
+                "aliases": [
+                    "FSA format",
+                    "fsa"
+                ],
+                "extensions": [
+                    ".fsa"
+                ]
+            }
+        ],
+        "grammars": [
+            {
+                "language": "gc",
+                "scopeName": "source.gchor",
+                "path": "./syntaxes/gc.tmLanguage.json"
+            },
+            {
+                "language": "fsa",
+                "scopeName": "source.fsa",
+                "path": "./syntaxes/fsa.tmLanguage.json"
+            }
+        ],
         "snippets": [
             {
                 "language": "gc",
                 "path": "./snippets/.code-snippets"
             }
         ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src --ext ts"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.65.0",
+        "@types/glob": "^7.1.4",
+        "@types/mocha": "^9.0.0",
+        "@types/node": "14.x",
+        "@typescript-eslint/eslint-plugin": "^5.1.0",
+        "@typescript-eslint/parser": "^5.1.0",
+        "eslint": "^8.1.0",
+        "glob": "^7.1.7",
+        "mocha": "^9.1.3",
+        "typescript": "^4.4.4",
+        "@vscode/test-electron": "^1.6.2"
     }
 }
