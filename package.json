@@ -22,10 +22,29 @@
     "contributes": {
         "commands": [
             {
-                "command": "vschor-grammar.previewfsa",
-                "title": "Preview FSA"
+                "command": "vschor-grammar.genlts",
+                "title": "VSChor: Generate LTS from a given FSA"
+            },
+            {
+                "command": "vschor-grammar.project",
+                "title": "VSChor: Generate projections from a given GC"
             }
         ],
+        "configuration": {
+            "title": "VSChor",
+            "properties": {
+                "vschor-grammar.pythonPath": {
+                    "type": "string",
+                    "default": null,
+                    "description": "Specifies the path to the python interpreter that will be used to run chortest."
+                },
+                "vschor-grammar.chorgramPath": {
+                    "type": "string",
+                    "default": null,
+                    "description": "Specifies the path to the Chorgram folder."
+                }
+            }
+        },
         "languages": [
             {
                 "id": "gc",
@@ -75,11 +94,14 @@
         "pretest": "npm run compile && npm run lint",
         "lint": "eslint src --ext ts"
     },
+    "extensionDependencies": [
+        "joaompinto.vscode-graphviz"
+    ],
     "devDependencies": {
-        "@types/vscode": "^1.65.0",
         "@types/glob": "^7.1.4",
         "@types/mocha": "^9.0.0",
         "@types/node": "14.x",
+        "@types/vscode": "^1.65.0",
         "@typescript-eslint/eslint-plugin": "^5.1.0",
         "@typescript-eslint/parser": "^5.1.0",
         "eslint": "^8.1.0",
