@@ -23,11 +23,13 @@
         "commands": [
             {
                 "command": "vschor-grammar.genlts",
-                "title": "VSChor: Generate LTS from a given FSA"
+                "title": "VSChor: Generate LTS from a given FSA",
+                "icon": "$(zap)"
             },
             {
                 "command": "vschor-grammar.project",
-                "title": "VSChor: Generate projections from a given GC"
+                "title": "VSChor: Generate projections from a given GC",
+                "icon": "$(zap)"
             }
         ],
         "configuration": {
@@ -85,7 +87,21 @@
                 "language": "gc",
                 "path": "./snippets/.code-snippets"
             }
-        ]
+        ],
+        "menus": {
+            "editor/title": [
+                {
+                    "command": "vschor-grammar.genlts",
+                    "group": "navigation",
+                    "when": "resourceLangId == fsa"
+                },
+                {
+                    "command": "vschor-grammar.project",
+                    "group": "navigation",
+                    "when": "resourceLangId == gc"
+                }
+            ]
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
