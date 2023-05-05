@@ -1,14 +1,20 @@
 import { window, workspace } from "vscode";
+import * as which from 'which';
 
 function getPythonPath(): string | undefined {
     let pythonPath: string | undefined = workspace.getConfiguration("vschor-grammar").get("pythonPath");
 
     if (pythonPath) {
         return pythonPath;
+    } else {
+        try {
+            pythonPath = which.sync("python");
+            return pythonPath;
+        } catch (error) {
+            window.showErrorMessage("Please set the pythonPath in the chorgram settings.");
+            return undefined;
+        }
     }
-
-    window.showErrorMessage("Please set the pythonPath in the chorgram settings.");
-    return undefined;
 }
 
 function getChorgramPath() {
