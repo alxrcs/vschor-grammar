@@ -110,14 +110,11 @@ async function generatePreview(document: vscode.TextDocument): Promise<void> {
 	// Check if the configuration is set to automatically generate a pdf
 	if (vscode.workspace.getConfiguration('vschor-grammar').get('generatePDF')){
 		// Transform the dot file into a pdf
-		const pdf = await runCommand(`dot -Tpdf ${tmpDotURI.path}`, './')
-	
+		const pdf = await runCommand(`dot -Tpdf ${tmpDotURI.path}`, folder, { encoding: 'binary' })
+
 		// Write the pdf to a tmp file
-		const tmpPDFURI = vscode.Uri.file(
-			document.fileName + '.pdf'
-		);
-	
-		await vscode.workspace.fs.writeFile(tmpPDFURI, encoder.encode(pdf))
+		const tmpPDFURI = vscode.Uri.file(document.fileName + '.pdf');
+		await vscode.workspace.fs.writeFile(tmpPDFURI, Buffer.from(pdf, 'binary'))
 	}
 
 	// Return control back to the original editor
@@ -131,7 +128,7 @@ async function generatePreview(document: vscode.TextDocument): Promise<void> {
  * @param path - The path to run the command in
  * @returns - A Promise that resolves with the command output or rejects with an error
  */
-async function runCommand(cmd: string, path: string): Promise<string> {
+async function runCommand(cmd: string, path: string, options = {}): Promise<string> {
 	const workspaceFolders = vscode.workspace.workspaceFolders;
 	if (!workspaceFolders) {
 		vscode.window.showErrorMessage("No workspace folder found");
@@ -146,7 +143,7 @@ async function runCommand(cmd: string, path: string): Promise<string> {
 			cp.execFile(
 				cmd,
 				[path],
-				{ cwd, shell: '/bin/bash', env: process.env },
+				{ cwd, shell: '/bin/bash', env: process.env, ...options },
 				async (error, stdout, stderr) => {
 					if (error) {
 						reject(stderr);
@@ -159,7 +156,7 @@ async function runCommand(cmd: string, path: string): Promise<string> {
 					} else {
 						diagnosticCollection.set(document.uri, [])
 					}
-					resolve(stdout.trim());
+					resolve(stdout);
 				}
 			);
 		});
