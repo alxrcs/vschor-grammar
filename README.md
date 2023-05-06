@@ -2,7 +2,8 @@
 
 This is a small extension for working with G-choreographies in VSCode.
 
-Research: Not for production usage.
+A description of the language and syntax can be found 
+[here](https://bitbucket.org/eMgssi/chorgram/wiki/Home).
 
 ## Features
 
@@ -12,5 +13,5 @@ Research: Not for production usage.
 * Menu options for projection and LTS generation
 
 ## TODO
-* More robust error detection (currently assumes chorgram is installed)
-* Expand the set of chorgram commands available 
+* More robust error detection for dependencies (currently assumes Chorgram is installed)
+* Expand the set of Chorgram commands available 
