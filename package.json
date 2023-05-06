@@ -15,7 +15,7 @@
     ],
     "main": "./out/extension.js",
     "activationEvents": [
-        "*",
+        "onStartupFinished",
         "onLanguage:gc",
         "onLanguage:fsa"
     ],
