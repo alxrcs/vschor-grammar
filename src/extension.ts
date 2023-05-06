@@ -106,15 +106,19 @@ async function generatePreview(document: vscode.TextDocument): Promise<void> {
 	// Show DOT preview
 	await vscode.commands.executeCommand('graphviz.previewToSide', tmpDotURI);
 
-	// Transform the dot file into a pdf
-	const pdf = await runCommand(`dot -Tpdf ${tmpDotURI.path}`, folder)
 
-	// Write the pdf to a tmp file
-	const tmpPDFURI = vscode.Uri.file(
-		path.join(folder, document.fileName + '.pdf')
-	);
-
-	await vscode.workspace.fs.writeFile(tmpPDFURI, encoder.encode(pdf))
+	// Check if the configuration is set to automatically generate a pdf
+	if (vscode.workspace.getConfiguration('vschor-grammar').get('generatePDF')){
+		// Transform the dot file into a pdf
+		const pdf = await runCommand(`dot -Tpdf ${tmpDotURI.path}`, './')
+	
+		// Write the pdf to a tmp file
+		const tmpPDFURI = vscode.Uri.file(
+			document.fileName + '.pdf'
+		);
+	
+		await vscode.workspace.fs.writeFile(tmpPDFURI, encoder.encode(pdf))
+	}
 
 	// Return control back to the original editor
 	await vscode.window.showTextDocument(document, vscode.ViewColumn.One, false);

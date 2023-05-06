@@ -44,6 +44,11 @@
                     "type": "string",
                     "default": null,
                     "description": "Specifies the path to the Chorgram folder."
+                },
+                "vschor-grammar.generatePDF": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Specifies whether to generate a PDF file for each projection."
                 }
             }
         },
