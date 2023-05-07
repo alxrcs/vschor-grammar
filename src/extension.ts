@@ -63,7 +63,7 @@ async function generateLTSCommand() {
 		const pdf = await runCommand(`dot -Tpdf ${dotFilename}`, folder, { encoding: 'binary' })
 
 		// Write the pdf to a tmp file
-		const tmpPDFURI = vscode.Uri.file(document.fileName + 'lts.pdf');
+		const tmpPDFURI = vscode.Uri.file(document.fileName + '.lts.pdf');
 		await vscode.workspace.fs.writeFile(tmpPDFURI, Buffer.from(pdf, 'binary'))
 	}
 
