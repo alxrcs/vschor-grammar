@@ -24,12 +24,12 @@
             {
                 "command": "vschor-grammar.genlts",
                 "title": "VSChor: Generate LTS from a given FSA",
-                "icon": "$(zap)"
+                "icon": "$(gather)"
             },
             {
                 "command": "vschor-grammar.project",
                 "title": "VSChor: Generate projections from a given GC",
-                "icon": "$(zap)"
+                "icon": "$(fold-down)"
             }
         ],
         "configuration": {
