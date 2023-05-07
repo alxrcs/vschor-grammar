@@ -5,7 +5,8 @@
     "repository": {
         "url": "https://github.com/alxrcs/vschor-grammar.git"
     },
-    "version": "0.0.4",
+    "icon": "icon.png",
+    "version": "0.0.5",
     "publisher": "alxrcs",
     "engines": {
         "vscode": "^1.65.0"
