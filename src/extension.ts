@@ -39,20 +39,33 @@ async function generateLTSCommand() {
 		title: "Generating LTS",
 		cancellable: false
 	}, async (progress, token) => {
-		if (!vscode.workspace.workspaceFolders ||
-			vscode.workspace.workspaceFolders?.length < 1) {
-			vscode.window.showErrorMessage("ChorGram folder must be open.");
-			return;
-		} else if (vscode.window.activeTextEditor?.document.languageId != "fsa") {
+		
+		assert(vscode.workspace.workspaceFolders, "No workspace folder found")
+		let folder = vscode.workspace.workspaceFolders[0].uri.fsPath;
+		
+		if (vscode.window.activeTextEditor?.document.languageId != "fsa") {
 			vscode.window.showErrorMessage("Please select a valid fsa file.");
 			return;
 		}
+
 		let document = vscode.window.activeTextEditor.document;
-		let path = document.uri.path;
+		let filepath = document.uri.fsPath;
 		let filename = document.fileName;
-		let fullCmd = getGenerateLTSCommand() + " --output-filename " + filename + ".lts.dot";
-		let stdout = await runCommand(fullCmd, path);
-		// vscode.window.showInformationMessage(stdout || "No output");
+		let dotFilename = filename + ".lts.dot";
+		let fullCmd = getGenerateLTSCommand() + ` --output-filename ${dotFilename}`;
+		let stdout = await runCommand(fullCmd, filepath);
+
+	let config = vscode.workspace.getConfiguration('vschor-grammar');
+
+	// Check if the configuration is set to automatically generate a pdf
+	if (config && config.get('generatePDF')){
+		// Transform the dot file into a pdf
+		const pdf = await runCommand(`dot -Tpdf ${dotFilename}`, folder, { encoding: 'binary' })
+
+		// Write the pdf to a tmp file
+		const tmpPDFURI = vscode.Uri.file(document.fileName + 'lts.pdf');
+		await vscode.workspace.fs.writeFile(tmpPDFURI, Buffer.from(pdf, 'binary'))
+	}
 
 		// Show LTS preview
 		let uri = vscode.Uri.file(document.fileName + ".lts.dot");
@@ -106,9 +119,10 @@ async function generatePreview(document: vscode.TextDocument): Promise<void> {
 	// Show DOT preview
 	await vscode.commands.executeCommand('graphviz.previewToSide', tmpDotURI);
 
+	let config = vscode.workspace.getConfiguration('vschor-grammar');
 
 	// Check if the configuration is set to automatically generate a pdf
-	if (vscode.workspace.getConfiguration('vschor-grammar').get('generatePDF')){
+	if (config && config.get('generatePDF')){
 		// Transform the dot file into a pdf
 		const pdf = await runCommand(`dot -Tpdf ${tmpDotURI.path}`, folder, { encoding: 'binary' })
 
