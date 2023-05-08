@@ -168,7 +168,9 @@ async function runCommand(cmd: string, path: string, options = {}): Promise<stri
 						// await vscode.window.showErrorMessage(errors[0].message);
 						return;
 					} else {
-						diagnosticCollection.set(document.uri, [])
+						if (document){
+							diagnosticCollection.set(document.uri, [])
+						}
 					}
 					resolve(stdout);
 				}
