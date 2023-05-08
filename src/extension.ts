@@ -66,10 +66,8 @@ async function generateLTSCommand() {
 		title: "Generating LTS",
 		cancellable: false
 	}, async (progress, token) => {
-		
 		assert(vscode.workspace.workspaceFolders, "No workspace folder found")
 		let folder = vscode.workspace.workspaceFolders[0].uri.fsPath;
-		
 		if (vscode.window.activeTextEditor?.document.languageId != "fsa") {
 			vscode.window.showErrorMessage("Please select a valid fsa file.");
 			return;
@@ -82,17 +80,17 @@ async function generateLTSCommand() {
 		let fullCmd = getGenerateLTSCommand() + ` --output-filename ${dotFilename}`;
 		let stdout = await runCommand(fullCmd, filepath);
 
-	let config = vscode.workspace.getConfiguration('vschor-grammar');
+		let config = vscode.workspace.getConfiguration('vschor-grammar');
 
-	// Check if the configuration is set to automatically generate a pdf
-	if (config && config.get('generatePDF')){
-		// Transform the dot file into a pdf
-		const pdf = await runCommand(`dot -Tpdf ${dotFilename}`, folder, { encoding: 'binary' })
+		// Check if the configuration is set to automatically generate a pdf
+		if (config && config.get('generatePDF')) {
+			// Transform the dot file into a pdf
+			const pdf = await runCommand(`dot -Tpdf ${dotFilename}`, folder, { encoding: 'binary' })
 
-		// Write the pdf to a tmp file
-		const tmpPDFURI = vscode.Uri.file(document.fileName + '.lts.pdf');
-		await vscode.workspace.fs.writeFile(tmpPDFURI, Buffer.from(pdf, 'binary'))
-	}
+			// Write the pdf to a tmp file
+			const tmpPDFURI = vscode.Uri.file(document.fileName + '.lts.pdf');
+			await vscode.workspace.fs.writeFile(tmpPDFURI, Buffer.from(pdf, 'binary'))
+		}
 
 		// Show LTS preview
 		let uri = vscode.Uri.file(document.fileName + ".lts.dot");
@@ -149,7 +147,7 @@ async function generatePreview(document: vscode.TextDocument): Promise<void> {
 	let config = vscode.workspace.getConfiguration('vschor-grammar');
 
 	// Check if the configuration is set to automatically generate a pdf
-	if (config && config.get('generatePDF')){
+	if (config && config.get('generatePDF')) {
 		// Transform the dot file into a pdf
 		const pdf = await runCommand(`dot -Tpdf ${tmpDotURI.path}`, folder, { encoding: 'binary' })
 
@@ -195,7 +193,7 @@ async function runCommand(cmd: string, path: string, options = {}): Promise<stri
 						// await vscode.window.showErrorMessage(errors[0].message);
 						return;
 					} else {
-						if (document){
+						if (document) {
 							diagnosticCollection.set(document.uri, [])
 						}
 					}
