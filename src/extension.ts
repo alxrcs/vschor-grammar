@@ -5,7 +5,7 @@ import * as util from 'util';
 import * as path from 'path';
 import assert = require('assert');
 
-import { getGenerateLTSCommand, getProjectCommand, getPreviewCommand } from './config';
+import { getGenerateLTSCommand, getProjectCommand, getPreviewCommand, getGenerateCodeCommand } from './config';
 
 const diagnosticCollection = vscode.languages.createDiagnosticCollection('vschor-grammar');
 
@@ -21,6 +21,11 @@ export function activate(context: vscode.ExtensionContext) {
 		projectGC
 	))
 
+	context.subscriptions.push(vscode.commands.registerCommand(
+		"vschor-grammar.gencode",
+		generateCode
+	));
+
 	context.subscriptions.push(
 		vscode.workspace.onDidCloseTextDocument(document => {
 			diagnosticCollection.delete(document.uri);
@@ -30,7 +35,29 @@ export function activate(context: vscode.ExtensionContext) {
 	// Generate previews whether opening or saving the original files
 	vscode.workspace.onDidSaveTextDocument(generatePreview);
 	vscode.workspace.onDidOpenTextDocument(generatePreview);
+}
 
+async function generateCode(uri: vscode.Uri) {
+	vscode.window.withProgress({
+		location: vscode.ProgressLocation.Notification,
+		title: "Generating Code",
+		cancellable: false
+	}, async (progress, token) => {
+
+		if (!uri.path.endsWith('.fsa')) {
+			vscode.window.showErrorMessage("Please select a valid fsa file.");
+			return;
+		}
+
+		let filepath = uri.fsPath;
+		let fullCmd = getGenerateCodeCommand();
+		let stdout = await runCommand(fullCmd, filepath);
+
+		// show the output
+		vscode.window.showInformationMessage(stdout);
+
+		progress.report({ increment: 100 });
+	});
 }
 
 async function generateLTSCommand() {

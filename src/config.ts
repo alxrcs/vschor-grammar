@@ -43,3 +43,7 @@ export function getGenerateLTSCommand() {
 export function getProjectCommand() {
     return `${getPythonPath()} -m chortest project`;
 }
+
+export function getGenerateCodeCommand() {
+    return `${getPythonPath()} -m chortest gencode`;
+}

@@ -31,6 +31,11 @@
                 "command": "vschor-grammar.project",
                 "title": "VSChor: Generate projections from a given GC",
                 "icon": "$(fold-down)"
+            },
+            {
+                "command": "vschor-grammar.gencode",
+                "title": "VSChor: Generate code from a given FSA",
+                "icon": "$(code)"
             }
         ],
         "configuration": {
@@ -105,6 +110,18 @@
                     "command": "vschor-grammar.project",
                     "group": "navigation",
                     "when": "resourceLangId == gc"
+                }
+            ],
+            "explorer/context": [
+                {
+                    "command": "vschor-grammar.gencode",
+                    "when": "resourceLangId == fsa"
+                }
+            ],
+            "editor/context": [
+                {
+                    "command": "vschor-grammar.gencode",
+                    "when": "resourceLangId == fsa"
                 }
             ]
         }
