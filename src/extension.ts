@@ -188,7 +188,9 @@ async function runCommand(cmd: string, path: string, options = {}): Promise<stri
 						reject(stderr);
 						// await vscode.window.showErrorMessage(error.message);
 						let errors = parseErrors(stderr, document);
-						diagnosticCollection.set(document.uri, errors);
+						if (document) {
+							diagnosticCollection.set(document.uri, errors);
+						}
 
 						// await vscode.window.showErrorMessage(errors[0].message);
 						return;

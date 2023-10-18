@@ -21,6 +21,13 @@ function getChorgramPath() {
     let chorgramPath: string | undefined = workspace.getConfiguration("vschor-grammar").get("chorgramPath");
 
     if (chorgramPath) {
+        // check if the path is valid
+        try {
+            which.sync(chorgramPath + "/gc2dot");
+        } catch (error) {
+            window.showErrorMessage("Could not find chorgram at the specified path. Please check the extension settings.");
+            return undefined;
+        }
         return chorgramPath;
     }
 
