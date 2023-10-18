@@ -188,11 +188,12 @@ async function runCommand(cmd: string, path: string, options = {}): Promise<stri
 						reject(stderr);
 						// await vscode.window.showErrorMessage(error.message);
 						let errors = parseErrors(stderr, document);
-						if (document) {
+						if (document && errors.length > 0) {
 							diagnosticCollection.set(document.uri, errors);
+						} else if(stderr) {
+							await vscode.window.showErrorMessage("Invocation failed. Check that the correct Python version is selected in the settings and that dependencies are installed. \n\n " + stderr);
 						}
 
-						// await vscode.window.showErrorMessage(errors[0].message);
 						return;
 					} else {
 						if (document) {
